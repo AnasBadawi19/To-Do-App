@@ -1,12 +1,12 @@
 #body{
-    background-image:url("images/img2.jpg");
+    background-image:url("images/img4.jpg");
         background-size:cover;
 
     margin: 0;
 }
 #wbody{
     padding:10px;
-    background-image:url("images/img.jpg");
+    background-image:url("images/img5.jpg");
     background-size:cover;
     background-position:center;
     background-repeat:no-repeat;
@@ -31,6 +31,7 @@
 #wchecklist{
     float:left;
     width:48%;
+  
 }
 #wtable{
     float:left;
@@ -75,5 +76,15 @@ text-align:center;
 sans-serif;
 font-weight:700;
 margin-bottom:30%;
+
+}
+#task-btn{
+
+}
+.task-row{
+    display: flex;      
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
 
 }

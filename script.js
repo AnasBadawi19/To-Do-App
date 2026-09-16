@@ -1,13 +1,28 @@
-const taskInputs = document.querySelectorAll(".task-input");
+const container = document.querySelector("#wchecklist");
+const addBtn = document.querySelector("#task-btn");
 
-taskInputs.forEach(function(input, index) {
-  input.addEventListener("keydown", function(event) {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      const nextInput = taskInputs[index + 1];
-      if (nextInput) {
-        nextInput.focus();
-      }
-    }
+function createTaskRow(){
+  const row = document.createElement("div");
+  row.className = "task-row";
+
+  const input = document.createElement("input");
+  input.type = "text";
+  input.className = "wchecklist";
+  input.placeholder = "New Task....";
+
+  const removeBtn = document.createElement("button");
+  removeBtn.textContent = "✕";
+  removeBtn.className = "remove-btn";
+  removeBtn.addEventListener("click", function() {
+    row.remove();
   });
-});
+
+  row.appendChild(input);
+  row.appendChild(removeBtn);
+  container.appendChild(row);
+
+  container.appendChild(addBtn);
+  input.focus();
+}
+
+addBtn.addEventListener("click", createTaskRow);
