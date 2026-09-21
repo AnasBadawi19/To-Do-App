@@ -26,38 +26,5 @@ function createTaskRow(){
 }
 
 addBtn.addEventListener("click", createTaskRow);
-const table = document.querySelector("#wtable table");
-const addRowBtn = document.querySelector("#add-row-btn");
 
-function createTableRow(){
-  const newRow = document.createElement("tr");
-
-  const taskCell = document.createElement("td");
-  const taskInput = document.createElement("input");
-  taskInput.type = "text";
-  taskInput.placeholder = "enter your task...";
-  taskCell.appendChild(taskInput);
-
-  const timeCell = document.createElement("td");
-  const timeInput = document.createElement("input");
-  timeInput.type = "time";
-  timeCell.appendChild(timeInput);
-
-  const removeCell = document.createElement("td");
-  const removeRowBtn = document.createElement("button");
-  removeRowBtn.textContent = "✕";
-  removeRowBtn.addEventListener("click", function(){
-    newRow.remove();
-  });
-  removeCell.appendChild(removeRowBtn);
-
-  newRow.appendChild(taskCell);
-  newRow.appendChild(timeCell);
-  newRow.appendChild(removeCell);
-
-  table.appendChild(newRow);
-  taskInput.focus();
-}
-
-addRowBtn.addEventListener("click", createTableRow);
 
