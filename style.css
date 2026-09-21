@@ -4,16 +4,15 @@
 
     margin: 0;
 }
-#wbody{
-    padding:10px;
-    background-image:url("images/img5.jpg");
-    background-size:cover;
-    background-position:center;
-    background-repeat:no-repeat;
-    opacity:1;
-   
-    
-    
+#wbody {
+  min-height: 100vh; 
+  padding: 10px;
+  background-image: url("images/img5.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  opacity: 1;
 }
 #wh1{
     text-align:center;
@@ -87,4 +86,13 @@ margin-bottom:30%;
   gap: 8px;
   margin-bottom: 10px;
 
+}
+.time-picker select {
+  padding: 2px;
+  border-radius: 4px;
+}
+#wbody::after {
+  content: "";
+  display: table;
+  clear: both;
 }
