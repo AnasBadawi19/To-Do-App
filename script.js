@@ -5,9 +5,13 @@ function createTaskRow(){
   const row = document.createElement("div");
   row.className = "task-row";
 
+  const checkbox = document.createElement("input");
+  checkbox.type = "checkbox";
+  checkbox.className = "task-checkbox";
+
   const input = document.createElement("input");
   input.type = "text";
-  input.className = "wchecklist";
+  input.className = "task-input";
   input.placeholder = "New Task....";
 
   const removeBtn = document.createElement("button");
@@ -17,6 +21,7 @@ function createTaskRow(){
     row.remove();
   });
 
+  row.appendChild(checkbox);
   row.appendChild(input);
   row.appendChild(removeBtn);
   container.appendChild(row);
@@ -111,4 +116,3 @@ document.querySelectorAll("#wtable table tr td:nth-child(2)").forEach(cell => {
   cell.innerHTML = "";
   cell.appendChild(createTimePicker());
 });
-
