@@ -97,6 +97,75 @@ margin-bottom:30%;
   clear: both;
 }
 
+/* ---------- Pomodoro Timer ---------- */
+#pomodoro{
+  max-width: 320px;
+  margin: 0 auto 25px auto;
+  padding: 15px;
+  text-align: center;
+  background-color: rgba(255, 253, 208, 0.85);
+  border: 3px solid chocolate;
+  border-radius: 12px;
+}
+#pomo-title{
+  margin: 0 0 5px 0;
+  color: chocolate;
+  font-family: 'Anton', sans-serif;
+}
+#pomo-mode{
+  margin: 0;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: chocolate;
+}
+#pomo-display{
+  font-size: 3.5rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: chocolate;
+  margin: 5px 0 10px 0;
+}
+#pomo-controls{
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+#pomo-controls button{
+  padding: 6px 18px;
+  border: none;
+  border-radius: 100px;
+  background-color: chocolate;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+}
+#pomo-controls button:hover{
+  background-color: grey;
+}
+#pomo-settings{
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  color: chocolate;
+  font-weight: bold;
+}
+#pomo-settings input{
+  width: 55px;
+  padding: 2px;
+  border-radius: 4px;
+}
+/* Break mode look */
+#pomodoro.break-mode{
+  border-color: seagreen;
+}
+#pomodoro.break-mode #pomo-title,
+#pomodoro.break-mode #pomo-mode,
+#pomodoro.break-mode #pomo-display{
+  color: seagreen;
+}
+
 /* ---------- Weekly Planner ---------- */
 #weekly-planner{
   clear: both;

@@ -112,6 +112,121 @@ document.querySelectorAll("#wtable table tr td:nth-child(2)").forEach(cell => {
   cell.appendChild(createTimePicker());
 });
 
+/* ---------- Pomodoro Timer ---------- */
+const pomodoro = document.querySelector("#pomodoro");
+const pomoMode = document.querySelector("#pomo-mode");
+const pomoDisplay = document.querySelector("#pomo-display");
+const pomoToggle = document.querySelector("#pomo-toggle");
+const pomoReset = document.querySelector("#pomo-reset");
+const pomoWork = document.querySelector("#pomo-work");
+const pomoBreak = document.querySelector("#pomo-break");
+
+let pomoCurrentMode = "work";   // "work" or "break"
+let pomoRemaining = 0;          // seconds left (used while paused)
+let pomoEndTime = 0;            // timestamp (ms) when the current period ends
+let pomoTimerId = null;         // null = not running
+
+// Read the minutes from an input, keep them valid, return seconds
+function getPomoSeconds(mode) {
+  const input = mode === "work" ? pomoWork : pomoBreak;
+  const max = Number(input.max);
+  let minutes = parseInt(input.value, 10);
+  if (isNaN(minutes) || minutes < 1) minutes = 1;
+  if (minutes > max) minutes = max;
+  input.value = minutes; // write the cleaned value back
+  return minutes * 60;
+}
+
+function renderPomo(seconds) {
+  const mins = String(Math.floor(seconds / 60)).padStart(2, "0");
+  const secs = String(seconds % 60).padStart(2, "0");
+  pomoDisplay.textContent = mins + ":" + secs;
+  pomoMode.textContent = pomoCurrentMode === "work" ? "Work" : "Break";
+  pomodoro.classList.toggle("break-mode", pomoCurrentMode === "break");
+}
+
+function pomoBeep() {
+  try {
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    const ctx = new AudioCtx();
+    const osc = ctx.createOscillator();
+    osc.frequency.value = 880;
+    osc.connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + 0.4);
+    setTimeout(function() { ctx.close(); }, 600);
+  } catch (err) {
+    // no sound available, that's fine
+  }
+}
+
+function switchPomoMode() {
+  pomoCurrentMode = pomoCurrentMode === "work" ? "break" : "work";
+  pomoRemaining = getPomoSeconds(pomoCurrentMode);
+  pomoEndTime = Date.now() + pomoRemaining * 1000;
+  pomoBeep();
+  renderPomo(pomoRemaining);
+}
+
+function pomoTick() {
+  // Work out the time left from the clock, so the timer stays accurate
+  // even if the browser slows the interval down in a background tab
+  const secondsLeft = Math.ceil((pomoEndTime - Date.now()) / 1000);
+  if (secondsLeft <= 0) {
+    switchPomoMode();
+  } else {
+    pomoRemaining = secondsLeft;
+    renderPomo(secondsLeft);
+  }
+}
+
+function startPomo() {
+  if (pomoTimerId !== null) return;
+  pomoEndTime = Date.now() + pomoRemaining * 1000;
+  pomoTimerId = setInterval(pomoTick, 250);
+  pomoToggle.textContent = "Pause";
+}
+
+function pausePomo() {
+  if (pomoTimerId === null) return;
+  clearInterval(pomoTimerId);
+  pomoTimerId = null;
+  pomoRemaining = Math.max(0, Math.ceil((pomoEndTime - Date.now()) / 1000));
+  pomoToggle.textContent = "Start";
+}
+
+function resetPomo() {
+  pausePomo();
+  pomoCurrentMode = "work";
+  pomoRemaining = getPomoSeconds("work");
+  renderPomo(pomoRemaining);
+}
+
+// When you edit a time while paused, the display updates right away.
+// While running, the new value is used from the next period onward.
+function onPomoSettingChange() {
+  const secs = getPomoSeconds(pomoCurrentMode);
+  if (pomoTimerId === null) {
+    pomoRemaining = secs;
+    renderPomo(pomoRemaining);
+  }
+}
+
+if (pomodoro) {
+  pomoToggle.addEventListener("click", function() {
+    if (pomoTimerId === null) {
+      startPomo();
+    } else {
+      pausePomo();
+    }
+  });
+  pomoReset.addEventListener("click", resetPomo);
+  pomoWork.addEventListener("change", onPomoSettingChange);
+  pomoBreak.addEventListener("change", onPomoSettingChange);
+
+  resetPomo(); // sets the starting display from the work input
+}
+
 /* ---------- Weekly Planner ---------- */
 const weekDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 const weekGrid = document.querySelector("#week-grid");
