@@ -5,13 +5,9 @@ function createTaskRow(){
   const row = document.createElement("div");
   row.className = "task-row";
 
-  const checkbox = document.createElement("input");
-  checkbox.type = "checkbox";
-  checkbox.className = "task-checkbox";
-
   const input = document.createElement("input");
   input.type = "text";
-  input.className = "task-input";
+  input.className = "wchecklist";
   input.placeholder = "New Task....";
 
   const removeBtn = document.createElement("button");
@@ -21,7 +17,6 @@ function createTaskRow(){
     row.remove();
   });
 
-  row.appendChild(checkbox);
   row.appendChild(input);
   row.appendChild(removeBtn);
   container.appendChild(row);
@@ -116,3 +111,86 @@ document.querySelectorAll("#wtable table tr td:nth-child(2)").forEach(cell => {
   cell.innerHTML = "";
   cell.appendChild(createTimePicker());
 });
+
+/* ---------- Weekly Planner ---------- */
+const weekDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+const weekGrid = document.querySelector("#week-grid");
+
+function createDayTask(list, text){
+  const li = document.createElement("li");
+  li.className = "day-task";
+
+  const check = document.createElement("input");
+  check.type = "checkbox";
+
+  const label = document.createElement("span");
+  label.textContent = text;
+
+  check.addEventListener("change", function(){
+    label.classList.toggle("done", check.checked);
+  });
+
+  const removeBtn = document.createElement("button");
+  removeBtn.textContent = "✕";
+  removeBtn.className = "remove-btn";
+  removeBtn.addEventListener("click", function(){
+    li.remove();
+  });
+
+  li.appendChild(check);
+  li.appendChild(label);
+  li.appendChild(removeBtn);
+  list.appendChild(li);
+}
+
+function createDayCard(dayName, isToday){
+  const card = document.createElement("div");
+  card.className = "day-card";
+  if (isToday) card.classList.add("today");
+
+  const title = document.createElement("h3");
+  title.textContent = dayName;
+
+  const list = document.createElement("ul");
+  list.className = "day-list";
+
+  const input = document.createElement("input");
+  input.type = "text";
+  input.className = "day-input";
+  input.placeholder = "Add a task...";
+
+  const addTaskBtn = document.createElement("button");
+  addTaskBtn.textContent = "+ Add";
+  addTaskBtn.className = "day-add-btn";
+
+  function addFromInput(){
+    const text = input.value.trim();
+    if (text === "") return;
+    createDayTask(list, text);
+    input.value = "";
+    input.focus();
+  }
+
+  addTaskBtn.addEventListener("click", addFromInput);
+  input.addEventListener("keydown", function(event){
+    if (event.key === "Enter") addFromInput();
+  });
+
+  card.appendChild(title);
+  card.appendChild(list);
+  card.appendChild(input);
+  card.appendChild(addTaskBtn);
+  return card;
+}
+
+function buildWeeklyPlanner(){
+  if (!weekGrid) return;
+  // getDay(): Sunday = 0, so shift it so Monday = 0
+  const todayIndex = (new Date().getDay() + 6) % 7;
+
+  weekDays.forEach(function(dayName, index){
+    weekGrid.appendChild(createDayCard(dayName, index === todayIndex));
+  });
+}
+
+buildWeeklyPlanner();

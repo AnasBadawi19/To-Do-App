@@ -96,3 +96,60 @@ margin-bottom:30%;
   display: table;
   clear: both;
 }
+
+/* ---------- Weekly Planner ---------- */
+#weekly-planner{
+  clear: both;
+  padding-top: 30px;
+}
+#wp3{
+  text-align: center;
+  color: chocolate;
+  font-family: 'Anton', sans-serif;
+  margin-bottom: 15px;
+}
+#week-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+}
+.day-card{
+  background-color: rgba(255, 253, 208, 0.85);
+  border-radius: 10px;
+  padding: 10px;
+}
+.day-card.today{
+  border: 3px solid chocolate;
+}
+.day-card h3{
+  margin: 0 0 8px 0;
+  text-align: center;
+  color: chocolate;
+}
+.day-list{
+  list-style: none;
+  padding: 0;
+  margin: 0 0 8px 0;
+}
+.day-task{
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+.day-task span{
+  flex: 1;
+  word-break: break-word;
+}
+.day-task span.done{
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+.day-input{
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 6px;
+}
+.day-add-btn{
+  width: 100%;
+}
